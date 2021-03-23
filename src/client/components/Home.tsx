@@ -32,7 +32,7 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
               .map((blog) => {
                 return (
                   <BlogPreview
-                  id = {blog.id}
+                    id={blog.id}
                     name={blog.name}
                     title={blog.title}
                     content={blog.content}

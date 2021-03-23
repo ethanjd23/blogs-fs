@@ -63,8 +63,9 @@ router.post("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   let blogid = Number(req.params.id);
   try {
-    let result = await db.blogsDB.destroy(blogid);
-    res.json(result);
+    db.tagsDB.destroyBlogTag(blogid);
+    db.blogsDB.destroy(blogid);
+    res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
