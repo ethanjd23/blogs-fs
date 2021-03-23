@@ -1,6 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { IBlog } from '../App';
 
-const BlogPreview: React.FC<IBlogPreviewProps> =  (props) => {
+const BlogPreview: React.FC<IBlog> =  (props) => {
     
     
     
@@ -15,7 +17,8 @@ const BlogPreview: React.FC<IBlogPreviewProps> =  (props) => {
               {props.content}
             </h3>
           </a>
-          <p className="post-meta">Posted by <a href="#"> {props.name}</a></p>
+          <p className="post-meta">Posted by {props.name}</p>
+          <Link className="btn btn-info" to={`/blog/${props.id}`}>Details</Link>
         </div>
         <hr></hr>
         </>
@@ -24,9 +27,3 @@ const BlogPreview: React.FC<IBlogPreviewProps> =  (props) => {
 
 export default BlogPreview;
 
-interface IBlogPreviewProps {
-    title: string;
-    content: string;
-    name: string;
-    tagid: number;
-  }

@@ -3,7 +3,7 @@ import db from "../../db";
 
 const router = express.Router();
 
-router.get('/:id?', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const blogid = Number(req.params.id);
     if (blogid) {
         try {

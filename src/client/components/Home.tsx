@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import BlogPreview from "./components/BlogPreview";
-import Header from "./components/Header";
+import BlogPreview from "./BlogPreview";
+import Header from "./Header";
 
 const Home: React.FunctionComponent<IHomeProps> = (props) => {
   const [blogs, setBlogs] = useState([]);
@@ -32,6 +32,7 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
               .map((blog) => {
                 return (
                   <BlogPreview
+                  id = {blog.id}
                     name={blog.name}
                     title={blog.title}
                     content={blog.content}
