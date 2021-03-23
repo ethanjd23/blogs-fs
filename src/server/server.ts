@@ -11,5 +11,4 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(apiRouter);
 
-const port = process.env.PORT || 3000;
 app.listen(config.port, () => console.log(`Server listening on port: ${config.port}`));
