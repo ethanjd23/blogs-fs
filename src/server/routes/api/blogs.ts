@@ -22,34 +22,53 @@ router.get("/:id?", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-    let newBlog: {
+router.put("/:id", async (req, res) => {
+    const updatedBlog: {
         title: string;
         content: string;
-        authorid: number;
-        tagid?: number;
     } = req.body
+    const blogToUpdate = Number(req.params.id);
     try {
-        let result = await db.blogsDB.insert(newBlog.title, newBlog.content, newBlog.authorid)
-        if(newBlog.tagid) {
-            db.tagsDB.insert(result.insertId, newBlog.tagid);
-        }
-        res.sendStatus(200);
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
-    }
-});
-
-router.delete("/:id", async (req, res) => {
-    let blogid = Number(req.params.id);
-    try {
-        let result = await db.blogsDB.destroy(blogid);
+        let result = db.blogsDB.update(updatedBlog.title, updatedBlog.content, blogToUpdate);
         res.json(result);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
     }
 })
+
+router.post("/", async (req, res) => {
+  let newBlog: {
+    title: string;
+    content: string;
+    authorid: number;
+    tagid?: number;
+  } = req.body;
+  try {
+    let result = await db.blogsDB.insert(
+      newBlog.title,
+      newBlog.content,
+      newBlog.authorid
+    );
+    if (newBlog.tagid) {
+      db.tagsDB.insert(result.insertId, newBlog.tagid);
+    }
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  let blogid = Number(req.params.id);
+  try {
+    let result = await db.blogsDB.destroy(blogid);
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
 
 export default router;
