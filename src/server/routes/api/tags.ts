@@ -3,7 +3,7 @@ import db from "../../db";
 
 const router = express.Router();
 
-router.get('/:id', async (req, res) => {
+router.get('/:id?', async (req, res) => {
     const blogid = Number(req.params.id);
     if (blogid) {
         try {
@@ -13,7 +13,12 @@ router.get('/:id', async (req, res) => {
             res.sendStatus(500);
         }
     } else {
-        res.sendStatus(500);
+        try {
+            res.json(await db.tagsDB.getAll())
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
     }
 })
 

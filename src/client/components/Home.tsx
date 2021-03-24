@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import Preview from "./Preview";
 import Header from "./Header";
+import Navbar from "./Navbar";
 
 const Home: React.FunctionComponent<IHomeProps> = (props) => {
   const [blogs, setBlogs] = useState([]);
@@ -22,6 +23,7 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
 
   return (
     <>
+    <Navbar />
       <Header />
       <div className="container">
         <div className="row">

@@ -1,13 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 
-import Header from "./Header";
+import Navbar from "./Navbar";
 
 const EditBlog: React.FC<IEditBlogProps> = (props) => {
-  const [blog, setBlog] = useState({});
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     getBlog();
@@ -18,13 +18,25 @@ const EditBlog: React.FC<IEditBlogProps> = (props) => {
       let res = await fetch(
         `http://localhost:3000/api/blogs/${props.match.params.id}`
       );
-      setBlog(await res.json());
-      // console.log(blog);
-      // setTitle(blog.title);
-      // setContent(blog.content);
+      let resJSON = await res.json();
+      setTitle(await resJSON.title);
+      setContent(await resJSON.content);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  async function editBlog() {
+    let changedBlog = {title, content};
+    $.ajax({
+      type: "PUT",
+      url: `/api/blogs/${props.match.params.id}`,
+      data: JSON.stringify(changedBlog),
+      contentType: "application/json"
+    }).then((response) => {
+      console.log(response);
+      props.history.push(`/blog/${props.match.params.id}`);
+    })
   }
 
   async function destroyBlog() {
@@ -33,14 +45,15 @@ const EditBlog: React.FC<IEditBlogProps> = (props) => {
       url: `/api/blogs/${props.match.params.id}`,
       success: function (res: string) {
         console.log(res);
-        history.back();
+        props.history.push("/");
       },
     });
   }
 
   return (
     <>
-      <div className="container">
+    <Navbar />
+      <div className="container internal-page-container">
         <div className="row">
           <div className="col-lg-8 col-md-10 mx-auto">
             <h3>Edit Blog</h3>
@@ -50,7 +63,7 @@ const EditBlog: React.FC<IEditBlogProps> = (props) => {
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
-                defaultValue={blog.title}
+                defaultValue={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
@@ -60,15 +73,17 @@ const EditBlog: React.FC<IEditBlogProps> = (props) => {
                 className="form-control"
                 id="exampleFormControlTextarea1"
                 rows="3"
-                defaultValue={blog.content}
+                defaultValue={content}
                 onChange={(e) => setContent(e.target.value)}
               ></textarea>
             </div>
           </div>
         </div>
         <div className="row">
-          <div className="col-lg-8 col-md-10 mx-auto">
-            <button className="btn btn-danger" onClick={destroyBlog}>
+          <div className="d-flex col-lg-8 col-md-10 mx-auto">
+            <Link to={`/blog/${props.match.params.id}`} className="mr-auto p-2 btn btn-secondary">Go back</Link>
+            <button className="p-2 btn btn-info" onClick={editBlog}>Edit</button>
+            <button className="p-2 ml-3 btn btn-danger" onClick={destroyBlog}>
               Delete
             </button>
           </div>
