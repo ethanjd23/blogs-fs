@@ -1,10 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { IBlog } from '../App';
-
-const BlogDetails: React.FC = (props) => {
+const BlogDetails: React.FC<IDetailsProps> = (props) => {
     const [blog, setBlog] = useState({});
     const [blogTag, setBlogTag] = useState("");
 
@@ -16,7 +15,7 @@ const BlogDetails: React.FC = (props) => {
         try {
             let res = await fetch(`http://localhost:3000/api/blogs/${props.match.params.id}`);
             setBlog(await res.json());
-            
+
             let resTag = await fetch(`http://localhost:3000/api/tags/${props.match.params.id}`);
             if (resTag) {
                 let resTagName = (await resTag.json())[0].name
@@ -39,6 +38,7 @@ const BlogDetails: React.FC = (props) => {
     }
 
     return (
+        <>
         <article>
         <div className="container">
           <div className="row">
@@ -47,11 +47,13 @@ const BlogDetails: React.FC = (props) => {
                 <p className="badge badge-success">{blogTag}</p>
                 <p className="text-muted">{blog.name}</p>
                 <p>{blog.content}</p>
-                <button className="btn-danger" onClick={destroyBlog}>Delete</button>
+                {/* <button className="btn-danger" onClick={destroyBlog}>Delete</button> */}
+                <Link to={`/edit/${props.match.params.id}`} className="btn btn-secondary">Edit</Link>
             </div>
           </div>
         </div>
       </article>
+      </>
     )
 }
 

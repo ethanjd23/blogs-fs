@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import BlogPreview from "./BlogPreview";
+import Preview from "./Preview";
 import Header from "./Header";
 
 const Home: React.FunctionComponent<IHomeProps> = (props) => {
@@ -31,7 +31,7 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
               .reverse()
               .map((blog) => {
                 return (
-                  <BlogPreview
+                  <Preview
                     id={blog.id}
                     name={blog.name}
                     title={blog.title}
