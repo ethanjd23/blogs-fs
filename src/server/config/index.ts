@@ -14,7 +14,7 @@ export default {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_SCHEMA
     },
-    port: parseInt(process.env.PORT, 10)
+    port: parseInt(process.env.PORT, 10),
     auth: {
         secret: process.env.AUTH_SECRET
     }

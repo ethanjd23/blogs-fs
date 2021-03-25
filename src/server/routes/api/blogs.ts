@@ -3,7 +3,15 @@ import db from "../../db";
 
 const router = express.Router();
 
-router.get("/:id?", async (req, res) => {
+const isAdmin: express.RequestHandler = (req, res, next) => {
+  if(!req.user || req.user.role !== 'admin') {
+    return res.sendStatus(401);
+  } else {
+    return next();
+  }
+}
+
+router.get("/:id?", async (req, res, next) => {
   if (req.params.id) {
     let blogid = Number(req.params.id);
     try {
@@ -37,7 +45,7 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.post("/", async (req, res) => {
+router.post("/", isAdmin, async (req, res) => {
   let newBlog: {
     title: string;
     content: string;

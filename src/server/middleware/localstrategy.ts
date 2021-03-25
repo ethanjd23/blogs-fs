@@ -5,3 +5,20 @@ import {ComparePassword} from '../utils/security/passwords';
 import DB from '../db';
 
 passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
+passport.use(new LocalStrategy.Strategy({
+    usernameField: 'email',
+    session: false,
+}, async (email, password, done) => {
+    try {
+        let [user] = await DB.authorsDB.findOneByEmail(email);
+        if(user && ComparePassword(password, user.password)) {
+            done(null, user);
+        } else {
+            done(null, false);
+        }
+    } catch (error) {
+        done(error);
+    }
+}))
