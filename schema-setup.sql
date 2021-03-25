@@ -5,6 +5,10 @@ CREATE TABLE Authors (
     created_at TIMESTAMP DEFAULT NOW(),
     PRIMARY KEY (id)
 );
+ALTER TABLE authors
+ADD password VARCHAR(60) DEFAULT null;
+ALTER TABLE authors
+ADD role VARCHAR(25) DEFAULT 'guest';
 
 CREATE TABLE Tags (
 	id INT AUTO_INCREMENT, 
@@ -29,6 +33,16 @@ CREATE TABLE BlogTags (
     PRIMARY KEY (blogid, tagid),
     FOREIGN KEY (blogid) REFERENCES Blogs(id),
     FOREIGN KEY (tagid) REFERENCES Tags(id)
+);
+
+CREATE TABLE tokens (
+id INT AUTO_INCREMENT NOT NULL,
+userid INT NOT NULL,
+token TEXT,
+expires DATETIME DEFAULT null,
+created_at TIMESTAMP DEFAULT NOW(),
+PRIMARY KEY (id),
+FOREIGN KEY (userid) REFERENCES authors(id)
 );
 
 delimiter //

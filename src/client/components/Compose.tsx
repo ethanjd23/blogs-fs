@@ -75,6 +75,7 @@ const Compose: React.FC<IComposeProps> = (props) => {
                 type="text"
                 className="form-control"
                 id="title-input"
+                maxLength={150}
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
               />
@@ -84,7 +85,7 @@ const Compose: React.FC<IComposeProps> = (props) => {
               <textarea
                 className="form-control"
                 id="content-input"
-                rows="3"
+                rows={3}
                 onChange={(e) => setContent(e.target.value)}
                 value={content}
               ></textarea>

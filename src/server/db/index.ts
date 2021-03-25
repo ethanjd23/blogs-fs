@@ -3,13 +3,14 @@ import config from '../config';
 import blogsDB from "./blogs";
 import authorsDB from "./authors";
 import tagsDB from "./tags";
+import tokensDB from "./tokens";
 
 
-export const connection = mysql.createConnection(config.mysql)
+export const pool = mysql.createPool(config.mysql)
 
 export const Query = (query: string, values?: Array<string | number>) => {
     return new Promise <Array<any>>((resolve, reject) => {
-        connection.query(query, values, (err, result) => {
+        pool.query(query, values, (err, result) => {
             if(err) throw err;
             return resolve(result);
         })
@@ -19,5 +20,6 @@ export const Query = (query: string, values?: Array<string | number>) => {
 export default {
     blogsDB,
     authorsDB,
-    tagsDB
+    tagsDB,
+    tokensDB
 }

@@ -72,7 +72,7 @@ const EditBlog: React.FC<IEditBlogProps> = (props) => {
               <textarea
                 className="form-control"
                 id="exampleFormControlTextarea1"
-                rows="3"
+                rows={3}
                 defaultValue={content}
                 onChange={(e) => setContent(e.target.value)}
               ></textarea>
